@@ -3,6 +3,7 @@ package net.itca.datastructures;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -33,6 +34,12 @@ public class BloomFilter {
     }
 
     public boolean contains(String element){
+        int falseInM = 0;
+        for (boolean b : m) {
+            falseInM += !b ? 1 : 0;
+        }
+        System.out.println("false in M: " + falseInM);
+
         int[] indices = getIndices(element);
         for (int index : indices) {
             if (!m[index]) {
@@ -40,6 +47,7 @@ public class BloomFilter {
             }
         }
         // at this point, we have not returned this we have a match (or hash collision, so we check our actual data)
+        System.out.println("Checking Set");
         return actualData.contains(element);
     }
 

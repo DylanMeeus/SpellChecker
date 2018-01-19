@@ -30,9 +30,8 @@ public class DictionaryLoader {
 
         String file = "/home/dylan/Development/Code/java/SpellChecker/resources/nederlands3.txt";
 
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(file), Charset.forName("iso-8859-1"));
-            dictionary = new BloomFilter(lines.size());
+        try (Stream<String> lines = Files.lines(Paths.get(file),Charset.forName("iso-8859-1"))){
+            dictionary = new BloomFilter(10_000_000);
             lines.forEach(word -> dictionary.add(word.toLowerCase()));
             return dictionary;
         } catch (IOException ioe) {
